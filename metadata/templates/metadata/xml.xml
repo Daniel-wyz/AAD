@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <metadata_id>{{ object.metadata_id }}</metadata_id>
+    <metadata_name>{{ object.metadata_name }}</metadata_name>
+    <time_created>{{ object.time_created }}</time_created>
+    <time_updated>{{ object.time_updated }}</time_updated>
+    <aas_project_number>{{ object.aas_project_number }}</aas_project_number>
+    <parent_metadata_id>{{ object.parent_metadata_id }}</parent_metadata_id>
+    <dataset_progress>{{ object.dataset_progress }}</dataset_progress>
+    <rawdata>
+    {% for file in  object.rawdata.all%}
+        <file>{{file.file_name}}</file>
+    {% endfor %}
+    </rawdata>
+    <science_keywords>
+        {% for keyword in  object.science_keywords.all%}
+            <keyword>{{keyword}}</keyword>
+        {% endfor %}
+    </science_keywords>
+    <additional_keywords>{{ object.additional_keywords }}</additional_keywords>
+    <instrument>{{ object.instrument }}</instrument>
+    <platform>{{ object.platform }}</platform>
+    <description>{{ object.description }}</description>
+    <summary>{{ object.summary }}</summary>
+    <purpose>{{ object.purpose }}</purpose>
+    <quality>{{ object.quality }}</quality>
+    <use_constraints>{{ object.use_constraints }}</use_constraints>
+    <access_constraints>{{ object.access_constraints }}</access_constraints>
+    <references>{{ object.references }}</references>
+    <first_name>{{ object.summary }}</first_name>
+    <last_name>{{ object.last_name }}</last_name>
+    <email>{{ object.email }}</email>
+</metadata>

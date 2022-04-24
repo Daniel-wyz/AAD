@@ -1,0 +1,28 @@
+.not-visible{
+    display: none;
+}
+
+.dz{
+    border: 3px dotted #000;
+    border-radius: 5px;
+}
+.dz:hover{
+    background-color: rgb(0, 255, 170);
+}
+
+.avatar-sm{
+    height:40px;
+    width:40px;
+    border-radius:50%;
+}
+
+.avatar-big{
+    height:200px;
+    width:200px;
+    border-radius:50%;
+}
+
+.logo-sm{
+    height:30px;
+    width:auto;
+}

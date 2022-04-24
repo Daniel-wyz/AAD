@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static 'metadata/upload.js' %}?v=5"></script>
+{% endblock scripts %}
+
+{% block title %}
+    Upload
+{% endblock title %}
+
+{% block content %}
+<br>
+<div id="alert-box"></div>
+<form id="my-dropozne" class="dropzone dz">
+    {% csrf_token %}
+    <div class="fallback">
+        <input name="file" type="file" multiple />
+    </div>
+</form>
+<button id="btn-continue" type="button" class="btn btn-primary mt-3" disabled>continue</button>
+
+{% endblock content %}

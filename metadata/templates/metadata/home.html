@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    AAD
+{% endblock title %}
+
+{% block content %}
+<div class="card-deck">
+    
+    {% for obj in  object_list%}
+    <div class="card border-info mb-3">
+        <div class="card-header">
+            <h5 class="mx-auto">{{obj.metadata_id}}</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text">Name: <b>{{obj.metadata_name}}</b></p>
+            <p class="card-text">Author: <b>{{obj.author}}</b></p>
+            <p class="card-text">Create Time: <b>{{obj.time_created}}</b></p>
+            <p class="card-text">State: <b>{{obj.dataset_progress}}</b></p>
+            <p class="card-text">Summary: <b>{{obj.summary}}</b></p>
+            <p class="card-text">Description: <b>{{obj.description|truncatewords:10}}</b></p>
+        </div>
+        <div class="card-footer">
+            <a href="{{obj.get_absolute_url}}" class="btn btn-primary">Details</a>
+            <a href="{{obj.get_pdf_url}}" class="btn btn-info">PDF</a>
+            <a href="{{obj.get_xml_url}}" class="btn btn-warning">XML</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

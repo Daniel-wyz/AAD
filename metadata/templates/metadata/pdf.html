@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>PDF {{obj.name}}</title>
+    <style>
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.25rem;
+          }
+    </style>
+</head>
+<body>
+    <h1>Metadata-{{object.metadata_id}}</h1>
+    <hr>
+    <div class="card mb-2">
+        <h5 class="card-header">Basic Information</h5>
+        <div class="card-body">
+            <p><b>Metadata ID: </b> {{object.metadata_id}}</p>
+            <p><b>Metadata Name: </b> {{object.metadata_name}}</p>
+            <p><b>Author: </b> {{object.author}}</p>
+            <p><b>Create Time: </b> {{object.time_created}}</p>
+            <p><b>Progress: </b> {{object.dataset_progress}}</p>
+            <p><b>AAS Project Number: </b> {{object.aas_project_number}}</p>
+            <p><b>Parent Metadata ID: </b> {{object.parent_metadata_id}}</p>
+            <p><b>Raw Data: </b></p>
+            {% for data in  object.rawdata.all %}
+                <a href="{{ data.file_obj.url }}">{{data.file_name}}</a>
+                <br>
+            {% endfor %}
+        </div>
+    </div>
+    <hr>
+    <div class="card mb-2">
+        <h5 class="card-header">Science Keywords</h5>
+        <div class="card-body">
+            <p><b>Science Keywords: </b></p>
+            {% for keyword in  object.science_keywords.all %}
+                <p class="alert alert-info"> {{keyword}}</p>
+            {% endfor %}
+            
+            <p><b>Additional Keywords: </b> {{object.additional_keywords}}</p>
+            <p><b>Instrument: </b> {{object.instrument}}</p>
+            <p><b>Platform: </b> {{object.platform}}</p>
+            <p><b>Description: </b> {{object.description}}</p>
+        </div>
+    </div>
+    <hr>
+    <div class="card mb-2">
+        <h5 class="card-header">Summary</h5>
+        <div class="card-body">
+            <p><b>Summary: </b> {{object.summay}}</p>
+            <p><b>Purpose: </b> {{object.purpose}}</p>
+            <p><b>Quality: </b> {{object.quality}}</p>
+        </div>
+    </div>
+    <hr>
+    <div class="card mb-2">
+        <h5 class="card-header">Constraints</h5>
+        <div class="card-body">
+            <p><b>Use Constraints: </b> {{object.use_constraints}}</p>
+            <p><b>Access Constraints: </b> {{object.access_constraints}}</p>
+            <p><b>Quality: </b> {{object.quality}}</p>
+        </div>
+    </div>
+    <hr>
+    <div class="card mb-2">
+        <h5 class="card-header">Publications/References</h5>
+        <div class="card-body">
+            <p><b>References: </b> {{object.reference}}</p>
+        </div>
+    </div>
+    <hr>
+    <div class="card mb-2">
+        <h5 class="card-header">Personnel</h5>
+        <div class="card-body">
+            <p><b>First Name: </b> {{object.first_name}}</p>
+            <p><b>Last Name: </b> {{object.last_name}}</p>
+            <p><b>Email: </b> {{object.email}}</p>
+        </div>
+    </div>
+</body>
+</html>

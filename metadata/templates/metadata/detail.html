@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static 'metadata/detail.js' %}?v=1"></script>
+{% endblock scripts %}
+
+{% block title %}
+    Metadata
+{% endblock title %}
+
+{% block content %}
+
+<h3 class="mx-auto">
+    Metadata:{{object.metadata_id}}
+    <a href="{{object.get_pdf_url}}" class="btn btn-info">PDF</a>
+    <a href="{{object.get_xml_url}}" class="btn btn-warning">XML</a>
+</h3>
+
+<hr>
+<div class="card mb-2">
+    <h5 class="card-header">Basic Information</h5>
+    <div class="card-body">
+        <p><b>Metadata ID: </b> {{object.metadata_id}}</p>
+        <p><b>Metadata Name: </b> {{object.metadata_name}}</p>
+        <p><b>Author: </b> {{object.author}}</p>
+        <p><b>Create Time: </b> {{object.time_created}}</p>
+        <p><b>Progress: </b> {{object.dataset_progress}}</p>
+        <p><b>AAS Project Number: </b> {{object.aas_project_number}}</p>
+        <p><b>Parent Metadata ID: </b> {{object.parent_metadata_id}}</p>
+        <p><b>Raw Data: </b></p>
+        {% for data in  object.rawdata.all %}
+            <a href="{{ data.file_obj.url }}">{{data.file_name}}</a>
+            <br>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card mb-2">
+    <h5 class="card-header">Science Keywords</h5>
+    <div class="card-body">
+        <p><b>Science Keywords: </b></p>
+        {% for keyword in  object.science_keywords.all %}
+            <p class="alert alert-info"> {{keyword}}</p>
+        {% endfor %}
+        
+        <p><b>Additional Keywords: </b> {{object.additional_keywords}}</p>
+        <p><b>Instrument: </b> {{object.instrument}}</p>
+        <p><b>Platform: </b> {{object.platform}}</p>
+        <p><b>Description: </b> {{object.description}}</p>
+    </div>
+</div>
+
+<div class="card mb-2">
+    <h5 class="card-header">Summary</h5>
+    <div class="card-body">
+        <p><b>Summary: </b> {{object.summay}}</p>
+        <p><b>Purpose: </b> {{object.purpose}}</p>
+        <p><b>Quality: </b> {{object.quality}}</p>
+    </div>
+</div>
+
+<div class="card mb-2">
+    <h5 class="card-header">Constraints</h5>
+    <div class="card-body">
+        <p><b>Use Constraints: </b> {{object.use_constraints}}</p>
+        <p><b>Access Constraints: </b> {{object.access_constraints}}</p>
+        <p><b>Quality: </b> {{object.quality}}</p>
+    </div>
+</div>
+
+<div class="card mb-2">
+    <h5 class="card-header">Publications/References</h5>
+    <div class="card-body">
+        <p><b>References: </b> {{object.reference}}</p>
+    </div>
+</div>
+
+<div class="card mb-2">
+    <h5 class="card-header">Personnel</h5>
+    <div class="card-body">
+        <p><b>First Name: </b> {{object.first_name}}</p>
+        <p><b>Last Name: </b> {{object.last_name}}</p>
+        <p><b>Email: </b> {{object.email}}</p>
+    </div>
+</div>
+
+
+
+{% comment %} <h3> Generate Chart </h3>
+<form action="{%url 'records:detail' object.pk %}" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <button id="btnSubmit" type="submit" class="btn btn-primary">Generate</button>
+</from>
+
+{% if chart %}
+<img src='data:image/png;base64, {{chart|safe}}' id='img'></img>
+{% endif %}
+
+{% if chart_ex %}
+<div class="alert alert-danger" role="alert">
+   {{ chart_ex}}
+  </div>
+{% endif %}
+<hr>
+<h3>DataFrame:</h3>
+{% for data in dfs %}
+    {{data|safe}}
+    <br>
+{% endfor %} {% endcomment %}
+{% endblock content %}
+
