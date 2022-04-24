@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block scripts %}
-    <script src="{% static 'metadata/create.js' %}?v=5"></script>
+    <script src="{% static 'metadata/create.js' %}?v=6"></script>
 {% endblock scripts %}
 
 {% block title %}
@@ -37,15 +37,23 @@
 <br>
 <div id="alert-box"></div>
 
+
 {% if err_msg %}
+<div class="alert alert-danger" role="alert">
   {{err_msg}}
+</div>
 {% endif %}
 
 {% if form %}
 <form id="metada_form" action="/create/{{metadata.metadata_id}}/" method="POST">
     {% csrf_token %}
     {{form|crispy}}
-    {% comment %} <select id="keywords" name="user_list" class="form-group" style="width:100%" multiple="multiple"></select> {% endcomment %}
+    <div id="keyword_selection" class="form-control mb-1 mt-1">
+      <label> Science Keywords:</label>
+      <select id="keywords" name="science_keywords"  style="width:100%" multiple="multiple" required></select>
+    </div>
+    
+    <input id="default_keywords" type="hidden" value="{% for keyword in metadata.science_keywords.all %}{{keyword.id}}-{{keyword.full_name}};{% endfor %}">
     <button id="btnSubmit" type="submit" class="btn btn-primary mt-3">Submit</button>
 </from>
 {% endif %}

@@ -1,5 +1,6 @@
 from django import forms
-from .models import Metadata, RawData, ProgressState
+from .models import Metadata, RawData, ProgressState, ScienceKeyword
+
 
 # required -- Boolean that specifies whether the field is required.
 #             True by default.
@@ -44,12 +45,13 @@ class MetadataForm(forms.ModelForm):
         self.fields["rawdata"].widget = forms.CheckboxSelectMultiple(
             attrs={"class": "form-control"}
         )
+
         # self.fields["science_keywords"].widget = forms.HiddenInput()
-        self.fields["science_keywords"].widget = forms.CheckboxSelectMultiple()
+        # self.fields["science_keywords"].widget = forms.CheckboxSelectMultiple()
 
     class Meta:
         model = Metadata
-        exclude = ("author", "time_created", "time_updated")
+        exclude = ("author", "time_created", "time_updated", "science_keywords")
         # labels={
         #     "metadata_id":"Metadata ID"
         # }

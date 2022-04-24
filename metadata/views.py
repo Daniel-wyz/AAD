@@ -124,21 +124,27 @@ def create_metadata(request, metadata_id):
             form.fields["rawdata"].queryset = metadata.rawdata
             form.initial["rawdata"] = metadata.rawdata.all()
 
-            form.fields[
-                "science_keywords"
-            ].queryset = metadata.science_keywords.order_by(
-                "topic", "term", "variable1", "variable2", "variable3"
-            )
-            form.initial["science_keywords"] = metadata.science_keywords.all()
+            # form.fields[
+            #     "science_keywords"
+            # ].queryset = metadata.science_keywords.order_by(
+            #     "topic", "term", "variable1", "variable2", "variable3"
+            # )
+            # form.initial["science_keywords"] = metadata.science_keywords.all()
 
             if request.method == "POST":
                 print(request.POST)
 
                 if form.is_valid():
-                    keywords = form.cleaned_data.get("science_keywords")
-                    metadata.science_keywords.set(keywords)
-                    metadata.save()
-                    success = True
+                    keywords = request.POST.getlist("science_keywords")
+                    # keywords = form.cleaned_data.get("science_keywords")
+                    if len(keywords) > 0:
+                        metadata.science_keywords.set(keywords)
+                        metadata.save()
+                        success = True
+                    else:
+                        err_msg = "must select at least one keyword"
+                else:
+                    err_msg = form.errors
     else:
         err_msg = "no metadata can be founded"
 

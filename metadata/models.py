@@ -2,7 +2,6 @@ from django.db import models
 from profiles.models import Profile
 from django.shortcuts import reverse
 
-
 ## all files uploaded by users
 ## support: .xlsx
 class RawData(models.Model):
