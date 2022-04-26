@@ -23,7 +23,7 @@ def login_view(request):
                 if request.GET.get("next"):
                     return redirect(request.GET.get("next"))
                 else:
-                    return redirect("records:home")
+                    return redirect("metadata:home")
         else:
             error_message = "Ups ... something went wrong"
 
