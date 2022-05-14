@@ -11,4 +11,5 @@ urlpatterns = [
     path("xml/<str:metadata_id>/", views.download_xml, name="xml"),
     path("upload/", views.upload_documents, name="upload"),
     path("search_science_keywords/", views.search_science_keywords, name="keywords"),
+    path("filter_science_keywords/", views.filter_science_keywords),
 ]

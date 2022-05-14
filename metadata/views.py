@@ -1,3 +1,4 @@
+from curses import meta
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from urllib3 import HTTPResponse
@@ -8,6 +9,7 @@ from .utils import (
     auto_delete_null_rows,
     generate_science_keywords,
     import_science_lables,
+    get_row_data_columns,
 )
 from AAD.utils import is_ajax, generate_code, get_chart
 from profiles.models import Profile
@@ -94,7 +96,7 @@ def upload_documents(request):
             if created:
                 obj.file_obj = file
                 obj.save()
-
+            metadata.metadata_name = file.name
             metadata.rawdata.add(obj)
 
             ## 3.analyze and autofill the suggested science keywords
@@ -113,6 +115,7 @@ def create_metadata(request, metadata_id):
     form = None
     err_msg = None
     success = None
+    columns = None
     metadata = Metadata.objects.get(metadata_id=metadata_id)
     if metadata:
         ## not the author
@@ -123,6 +126,7 @@ def create_metadata(request, metadata_id):
 
             form.fields["rawdata"].queryset = metadata.rawdata
             form.initial["rawdata"] = metadata.rawdata.all()
+            columns = get_row_data_columns(metadata.rawdata.first().file_obj)
 
             # form.fields[
             #     "science_keywords"
@@ -151,6 +155,7 @@ def create_metadata(request, metadata_id):
     context = {
         "form": form,
         "metadata": metadata,
+        "columns": columns,
         "success": success,
         "err_msg": err_msg,
     }
@@ -178,4 +183,24 @@ def search_science_keywords(request):
             )
         ret = list(orgs)
         result = json.dumps(ret)
+    return HttpResponse(result)
+
+
+def filter_science_keywords(request):
+    result = {}
+    if request.method == "GET":
+        print(request.GET)
+        metadata_id = request.GET.get("metadata_id")
+        hitcount = int(request.GET.get("hitcount"))
+        excludes = request.GET.getlist("excludes")
+
+        keywords = []
+        metadata = Metadata.objects.get(metadata_id=metadata_id)
+        rawdata = metadata.rawdata.first().file_obj
+
+        generate_science_keywords(rawdata, keywords, hitcount, excludes)
+        keywords = map(lambda x: str(x.id) + "-" + x.full_name, keywords)
+
+        result = json.dumps(list(keywords))
+
     return HttpResponse(result)

@@ -37,6 +37,8 @@ class MetadataForm(forms.ModelForm):
             attrs={"class": "form-control", "readonly": "true"}
         )
 
+        self.fields["metadata_name"].disabled = True
+
         self.fields["dataset_progress"].initial = ProgressState.objects.get(
             state="Completed"
         )

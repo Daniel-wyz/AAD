@@ -4,36 +4,56 @@ from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 
 
-def generate_science_keywords(file, keywords, least_time=1):
+def get_row_data_columns(file):
     wb = load_workbook(file)
     ws = wb[wb.sheetnames[0]]
-    ## 1. standardize the worksheet
+
     auto_delete_null_rows(ws)
 
-    ## 2. fetch the head title
     rows = ws.rows
     head = next(rows)
-    titles = []
-    keyword_time_dic = {}
 
+    titles = []
     for cell in head:
         if cell.value is not None:
-            print(cell, cell.value)
+            # print(cell, cell.value)
             titles.append(cell.value.lower())
 
+    return titles
+
+
+def generate_science_keywords(file, keywords, least_time=1, excludes=None):
+    titles = get_row_data_columns(file)
+    # print(titles)
+    if excludes:
+        titles = filter(lambda x: x not in excludes, titles)
+
+    keyword_time_dic = {}
+
     labels = Label.objects.filter(name__in=titles)
-    print(labels)
+
     for label in labels:
         for keyword in label.keywords.all():
             if keyword in keyword_time_dic:
                 keyword_time_dic[keyword] += 1
             else:
-                keyword_time_dic[keyword] = 0
+                keyword_time_dic[keyword] = 1
 
-    print(keyword_time_dic)
-    for keyword, time in keyword_time_dic.items():
-        if time >= least_time:
+    keyword_time_dic = dict(
+        filter(lambda x: x[1] >= least_time, keyword_time_dic.items())
+    )
+    keyword_list = get_sorted_list(keyword_time_dic, True)
+    print(keyword_list)
+
+    for keyword, time in keyword_list:
+        if isinstance(keywords, list):
+            keywords.append(keyword)
+        else:
             keywords.add(keyword)
+
+
+def get_sorted_list(d, reverse=False):
+    return sorted(d.items(), key=lambda x: x[1], reverse=reverse)
 
 
 def import_science_keywords(file):

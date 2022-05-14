@@ -76,10 +76,7 @@ class Metadata(models.Model):
 
     ## General Infomation
     metadata_id = models.CharField(max_length=12, unique=True)
-    metadata_name = models.CharField(
-        max_length=120,
-        null=True,
-    )
+    metadata_name = models.CharField(max_length=120, null=True, blank=True)
     aas_project_number = models.CharField(max_length=12, null=True, blank=True)
     parent_metadata_id = models.CharField(max_length=12, null=True, blank=True)
     rawdata = models.ManyToManyField(RawData)

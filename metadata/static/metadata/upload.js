@@ -39,7 +39,7 @@ const myDropzone = new Dropzone('#my-dropozne', {
     maxFiles: 100,
     maxFilesize: 100,
     parallelUploads: 100,
-    uploadMultiple: true,
+    // uploadMultiple: true,
     addRemoveLinks: true,
     autoProcessQueue: false,
     // image/*,application/pdf,.psd

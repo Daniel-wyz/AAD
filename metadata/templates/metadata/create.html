@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block scripts %}
-    <script src="{% static 'metadata/create.js' %}?v=6"></script>
+    <script src="{% static 'metadata/create.js' %}?v=9"></script>
 {% endblock scripts %}
 
 {% block title %}
@@ -45,15 +45,31 @@
 {% endif %}
 
 {% if form %}
-<form id="metada_form" action="/create/{{metadata.metadata_id}}/" method="POST">
+<form id="metada_form" action="/create/{{metadata.metadata_id}}/" method="POST" data={{metadata.metadata_id}}>
     {% csrf_token %}
     {{form|crispy}}
+
     <div id="keyword_selection" class="form-control mb-1 mt-1">
       <label> Science Keywords:</label>
+
+      <div class="keywords-filter" style="border:1px gray solid;padding:5px">
+        <label >Columns:</label></br>
+
+        {%for column in columns %}
+          <input id = "column-{{ forloop.counter }}" type="checkbox" checked data="{{column}}"/>
+          <label for="column-{{ forloop.counter }}">{{column}}</label>
+        {%endfor%}
+        </br>
+        <label >Hit Count:</label>
+        <select id="hitcount">
+          {%for column in columns %}
+            <option> {{ forloop.counter }} </option>
+          {%endfor%}
+        </select>
+      </div>
+      </br>
       <select id="keywords" name="science_keywords"  style="width:100%" multiple="multiple" required></select>
     </div>
-    
-    <input id="default_keywords" type="hidden" value="{% for keyword in metadata.science_keywords.all %}{{keyword.id}}-{{keyword.full_name}};{% endfor %}">
     <button id="btnSubmit" type="submit" class="btn btn-primary mt-3">Submit</button>
 </from>
 {% endif %}
