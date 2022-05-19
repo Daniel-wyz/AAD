@@ -106,6 +106,7 @@ def upload_documents(request):
 
         result["success"] = True
         result["metadata_id"] = metadata.metadata_id
+
         return JsonResponse(result)
     return render(request, "metadata/upload.html", {})
 
